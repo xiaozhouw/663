@@ -6,5 +6,6 @@ This project implements the memory sparse version of Viterbi algorithm and Baum-
 ## Authors
 Hao Sheng, Xiaozhou Wang
 
-## Installing instructions
+## Install instructions
+
 
