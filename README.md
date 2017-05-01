@@ -65,6 +65,6 @@ In `HMM` folder, there are 3 scripts: `__init__.py`, `hmm.py` and `hmm_unoptimiz
 ### `data` folder
 The data we used in application (`weather-test2-1000.txt`) is stored in `data` folder. The data is retrieved from [HMM Programming Project](https://inst.eecs.berkeley.edu/~cs188/sp08/projects/hmm/project_hmm.html). How this synthesized data is generated can be found on [HMM Tutorial](https://inst.eecs.berkeley.edu/~cs188/sp08/slides/tr-98-041-1.pdf).
 
-### `report.pdf`
+### `Report.pdf`
 
 This file contains the written report for our project.
