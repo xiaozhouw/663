@@ -8,7 +8,10 @@ The whole project is based on the paper ''Implementing EM and Viterbi algorithms
 
 ## Authors
 Hao Sheng, Xiaozhou Wang
-{hao.sheng,xiaozhou.wang}@duke.edu
+
+netid: `hs220`, `xw106`
+
+email: `{hao.sheng,xiaozhou.wang}@duke.edu`
 
 ## Install instructions
 
