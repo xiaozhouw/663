@@ -4,7 +4,11 @@ from collections import deque
 def forward(A,B,pi,sequence,scale=False):
     '''
     Perform the forward step in Baum-Welch Algorithm.
-
+    
+    Returns likelihood, alpha
+    
+    (Details on alpha please see Baum-Welch Algorithm)
+    
     Parameters
     ----------
     A: np.ndarray
@@ -16,6 +20,12 @@ def forward(A,B,pi,sequence,scale=False):
     sequence: array-like
         The observed sequence.
         Need to be converted to integer coded.    
+    scale: boolean, default False
+        Whether alpha should be scale to have sum of 1 for each t. 
+        When the chain is long, the likelihood would be very close to 0.
+        To avoid overflow problem, scaling alpha can be applied.
+        Typically used for chain longer than 1,000 or when warning of overflow shows up.
+        When `scale`=Ture, the likelihood is going to be 1 for scaling reason! 
     '''
 
     N=A.shape[0]
@@ -35,6 +45,10 @@ def forward(A,B,pi,sequence,scale=False):
 def backward(A,B,pi,sequence,scale=False):
     '''
     Perform the backward step in Baum-Welch Algorithm.
+    
+    Returns likelihood, beta
+    
+    (Details on alpha please see Baum-Welch Algorithm)
 
     Parameters
     ----------
@@ -46,7 +60,13 @@ def backward(A,B,pi,sequence,scale=False):
         Initial state distribution.
     sequence: array-like
         The observed sequence.
-        Need to be converted to integer coded.    
+        Need to be converted to integer coded.   
+    scale: Boolean, default False
+        Whether beta should be scale to have sum of 1 for each t. 
+        When the chain is long, the likelihood would be very close to 0.
+        To avoid overflow problem, scaling beta can be applied.
+        Typically used for chain longer than 1,000 or when warning of overflow shows up.
+        When `scale`=Ture, the likelihood is going to be 1 for scaling reason! 
     '''
 
     N=A.shape[0]
@@ -67,6 +87,8 @@ def backward(A,B,pi,sequence,scale=False):
 def Viterbi(A,B,pi,sequence):
     '''
     Viterbi decoding of HMM.
+    
+    Return: Most likely hidden states.
 
     Parameters
     ----------
@@ -110,7 +132,9 @@ def Baum_Welch(A,B,pi,sequence,max_iter,threshold=1e-15,scale=False):
     '''
     Baum-Welch algorithm of HMM. 
     See https://en.wikipedia.org/wiki/Baum%E2%80%93Welch_algorithm.
-
+    
+    Returns: estimated transition matrix, estimated emission matrix, estimated initial state distribution 
+    
     Parameters
     ----------
     A: np.ndarray
@@ -121,9 +145,18 @@ def Baum_Welch(A,B,pi,sequence,max_iter,threshold=1e-15,scale=False):
         Initial state distribution.
     sequence: array-like
         The observed sequence.
-        Need to be converted to integer coded.    
+        Need to be converted to integer coded.   
+    max_iter: int
+        Number of iteration for EM.
+    threshold: float
+        Covergence check thershold for likelihood.
+        Notice: when `scale` is set at True (for long chain), threshold will be set to 0 (run `max_iter` iterations) because the `forward` and `backward` will not return true likelihood. 
+    scale: boolean, default False
+        If set as True, use scaled alpha and beta.
+        This is useful to avoid overflow when dealing with long chains.
     '''
-
+    if scale:
+        threshold=0
     N=A.shape[0]
     M=B.shape[1]
     T=len(sequence)
@@ -156,6 +189,12 @@ def Baum_Welch_linear_memory(A,B,pi,sequence,max_iter,threshold=1e-15):
     Baum-Welch algorithm in linear memory.
     Implemented according to Churbanov, A., & Winters-Hilt, S. (2008).
 
+    Returns: estimated transition matrix, estimated emission matrix, estimated initial state distribution
+    
+    ####Warning####
+    
+    This function is not correctly implemnted! Do NOT use this function!
+    
     Parameters
     ----------
     A: np.ndarray
@@ -166,7 +205,15 @@ def Baum_Welch_linear_memory(A,B,pi,sequence,max_iter,threshold=1e-15):
         Initial state distribution.
     sequence: array-like
         The observed sequence.
-        Need to be converted to integer coded.  
+        Need to be converted to integer coded.   
+    max_iter: int
+        Number of iteration for EM.
+    threshold: float
+        Covergence check thershold for likelihood.
+        Notice: when `scale` is set at True (for long chain), threshold will be set to 0 (run `max_iter` iterations) because the `forward` and `backward` will not return true likelihood. 
+    scale: boolean, default False
+        If set as True, use scaled alpha and beta.
+        This is useful to avoid overflow when dealing with long chains.
     '''
 
     N=A.shape[0]
@@ -227,6 +274,8 @@ def Baum_Welch_linear_memory(A,B,pi,sequence,max_iter,threshold=1e-15):
 def Viterbi_linear_memory(A,B,pi,sequence):
     '''
     Viterbi decoding of HMM in linear memory by using `deque` in `collections`.
+    
+    Return: Most likely hidden states.
 
     Parameters
     ----------
@@ -269,6 +318,8 @@ def Viterbi_linear_memory(A,B,pi,sequence):
 def sim_HMM(A,B,pi,length):
     '''
     Simulate a HMM.
+    
+    Return: hidden states, observed sequence
 
     Parameters
     ----------

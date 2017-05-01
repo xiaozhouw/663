@@ -1,23 +1,8 @@
 import numpy as np
 from numpy import random
 from collections import deque
+
 def forward(A,B,pi,sequence,scale=False):
-    '''
-    Perform the forward step in Baum-Welch Algorithm.
-
-    Parameters
-    ----------
-    A: np.ndarray
-        Stochastic transition matrix.
-    B: np.ndarray
-        Emission matrix.
-    pi: np.1darray
-        Initial state distribution.
-    sequence: array-like
-        The observed sequence.
-        Need to be converted to integer coded.    
-    '''
-
     N=A.shape[0]
     M=B.shape[1]
     T=len(sequence)
@@ -32,23 +17,8 @@ def forward(A,B,pi,sequence,scale=False):
             alpha[t]/=np.sum(alpha[t])
         t+=1
     return(np.sum(alpha[T-1]),alpha)
+
 def backward(A,B,pi,sequence,scale=False):
-    '''
-    Perform the backward step in Baum-Welch Algorithm.
-
-    Parameters
-    ----------
-    A: np.ndarray
-        Stochastic transition matrix.
-    B: np.ndarray
-        Emission matrix.
-    pi: np.1darray
-        Initial state distribution.
-    sequence: array-like
-        The observed sequence.
-        Need to be converted to integer coded.    
-    '''
-
     N=A.shape[0]
     M=B.shape[1]
     T=len(sequence)
@@ -65,22 +35,6 @@ def backward(A,B,pi,sequence,scale=False):
     return(np.sum(pi*B[:,sequence[0]]*beta[0]),beta)
 
 def Viterbi(A,B,pi,sequence):
-    '''
-    Viterbi decoding of HMM.
-
-    Parameters
-    ----------
-    A: np.ndarray
-        Stochastic transition matrix.
-    B: np.ndarray
-        Emission matrix.
-    pi: np.1darray
-        Initial state distribution.
-    sequence: array-like
-        The observed sequence.
-        Need to be converted to integer coded.    
-    '''
-
     N=A.shape[0]
     M=B.shape[1]
     T=len(sequence)
@@ -107,23 +61,6 @@ def Viterbi(A,B,pi,sequence):
     return(q)
 
 def Baum_Welch(A,B,pi,sequence,max_iter,threshold=1e-15,scale=False):
-    '''
-    Baum-Welch algorithm of HMM. 
-    See https://en.wikipedia.org/wiki/Baum%E2%80%93Welch_algorithm.
-
-    Parameters
-    ----------
-    A: np.ndarray
-        Initial stochastic transition matrix.
-    B: np.ndarray
-        Emission matrix.
-    pi: np.1darray
-        Initial state distribution.
-    sequence: array-like
-        The observed sequence.
-        Need to be converted to integer coded.    
-    '''
-
     N=A.shape[0]
     M=B.shape[1]
     T=len(sequence)
@@ -149,23 +86,6 @@ def Baum_Welch(A,B,pi,sequence,max_iter,threshold=1e-15,scale=False):
     return(A,B,pi)
 
 def Baum_Welch_linear_memory(A,B,pi,sequence,max_iter,threshold=1e-15):
-    '''
-    Baum-Welch algorithm in linear memory.
-    Implemented according to Churbanov, A., & Winters-Hilt, S. (2008).
-
-    Parameters
-    ----------
-    A: np.ndarray
-        Initial stochastic transition matrix.
-    B: np.ndarray
-        Emission matrix.
-    pi: np.1darray
-        Initial state distribution.
-    sequence: array-like
-        The observed sequence.
-        Need to be converted to integer coded.  
-    '''
-
     N=A.shape[0]
     M=B.shape[1]
     T=len(sequence)
@@ -222,22 +142,6 @@ def Baum_Welch_linear_memory(A,B,pi,sequence,max_iter,threshold=1e-15):
     return(A,B,pi)
 
 def Viterbi_linear_memory(A,B,pi,sequence):
-    '''
-    Viterbi decoding of HMM in linear memory by using `deque` in `collections`.
-
-    Parameters
-    ----------
-    A: np.ndarray
-        Stochastic transition matrix.
-    B: np.ndarray
-        Emission matrix.
-    pi: np.1darray
-        Initial state distribution.
-    sequence: array-like
-        The observed sequence.
-        Need to be converted to integer coded.    
-    '''
-
     N=A.shape[0]
     M=B.shape[1]
     T=len(sequence)
@@ -262,21 +166,8 @@ def Viterbi_linear_memory(A,B,pi,sequence):
         q[t]=d.pop().reshape([N,1])[q[t+1]]
         t-=1  
     return q
-def sim_HMM(A,B,pi,length):
-    '''
-    Simulate a HMM.
 
-    Parameters
-    ----------
-    A: np.ndarray
-        Stochastic transition matrix.
-    B: np.ndarray
-        Emission matrix.
-    pi: np.1darray
-        Initial state distribution.
-    length: int
-        The length of the chain.
-    '''
+def sim_HMM(A,B,pi,length):
     states=np.arange(A.shape[0])
     outcomes=np.arange(B.shape[1])
     out_states=np.zeros(length)
