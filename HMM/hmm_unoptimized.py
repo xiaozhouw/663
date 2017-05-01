@@ -106,7 +106,7 @@ def Viterbi(A,B,pi,sequence):
         t-=1
     return(q)
 
-def Baum_Welch_no_optimized(A,B,pi,sequence,max_iter,threshold=1e-15,scale=False):
+def Baum_Welch(A,B,pi,sequence,max_iter,threshold=1e-15,scale=False):
     '''
     Baum-Welch algorithm of HMM. 
     See https://en.wikipedia.org/wiki/Baum%E2%80%93Welch_algorithm.
