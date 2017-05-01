@@ -24,5 +24,5 @@ setup(
     ],
 
     keywords='hidden markov model',
-    install_requires=['numpy','collection'],
+    install_requires=['numpy'],
 )
