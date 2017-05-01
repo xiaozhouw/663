@@ -6,7 +6,7 @@ setup(
     version='1.0.0',
 
     description='Implementation of the Linear Sparse Version Algorithms to Hidden Markov Model',
-    long_description= This is an implementation of the memory sparse version of the Baum-welch and Viterbi algorithms to HMM.,
+    long_description= 'This is an implementation of the memory sparse version of the Baum-welch and Viterbi algorithms to HMM.',
     url='https://github.com/xiaozhouw/663',
     author='Hao Sheng, Xiaozhou Wang',
     author_email='hao.sheng@duke.edu,xiaozhou.wang@duke.edu',
