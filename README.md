@@ -25,15 +25,33 @@ If you have already cloned our GitHub repository, please change your working dir
 ```
 $ python3 setup.py install
 ```
+
+Notice: when you run `setup.py` on VM, an error will pop up:
+```
+ [Errno 13] Permission denied: '/opt/conda/lib/python3.5/site-packages/easy-install.pth'
+```
+
+However, it does not influnce the usage of our package. This problem only shows up on VM (not on my personal computer).
+
 ## Files descriptions
 
-### `Code_Report.ipynb`
+### `Code_Report.ipynb` and `Code_Report.pdf`
 
 This file contains the code report part of our reports. This iPython Notebook includes code and partial explanation of:
 - Benchmarking
 - Simulations
 - Applications
 - Comparative Analysis
+
+Please make sure you have installed our package and `hmmlearn` beform running the notebook!
+
+This file can be used to generate reproducible code report `Code_Report.pdf`:
+
+1. run `Code_Report.ipynb`
+2. run following lines in bash:
+```
+$ jupyter nbconvert --to pdf Code_Report.ipynb
+```
 
 ### `Setup.py` and `HMM` folder
 
